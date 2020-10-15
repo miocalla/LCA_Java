@@ -4,23 +4,19 @@ Created on 13 Oct 2020
 @author: michaelocallaghan
 '''
 class Node: 
-    # Constructor to create a new binary node 
+    # Constructor 
     def __init__(self, key): 
         self.key =  key 
         self.left = None
         self.right = None
   
-# Finds the path from root node to given root of the tree. 
-# Stores the path in a list path[], returns true if path  
-# exists otherwise false 
+# Finds the path from root node to given root of the tree. Returns true if path exists, otherwise false 
 def findPath( root, path, k): 
   
-    # Baes Case 
     if root is None: 
         return False
   
-    # Store this node is path vector. The node will be 
-    # removed if not in path from root to k 
+    # Store this node is path vector. The node will be removed if not in path from root to k 
     path.append(root.key) 
   
     # See if the k is same as root's key 
@@ -32,23 +28,20 @@ def findPath( root, path, k):
             (root.right!= None and findPath(root.right, path, k))): 
         return True 
   
-    # If not present in subtree rooted with root, remove 
-    # root from path and return False 
+    # If not present in subtree rooted with root, remove root from path and return False 
        
     path.pop() 
     return False
   
-# Returns LCA if node n1 , n2 are present in the given 
-# binary tre otherwise return -1 
-def findLCA(root, n1, n2): 
+# Returns LCA if node number1 , number2 are present in the given binary tree otherwise return -1 
+def findLCA(root, number1, number2): 
   
-    # To store paths to n1 and n2 fromthe root 
+    # To store paths from root to number1 and number2
     path1 = [] 
     path2 = [] 
   
-    # Find paths from root to n1 and root to n2. 
-    # If either n1 or n2 is not present , return -1  
-    if (not findPath(root, path1, n1) or not findPath(root, path2, n2)): 
+    # Find paths from root to number1 and root to number2. Return -1 if either number1 or number2 is not present 
+    if (not findPath(root, path1, number1) or not findPath(root, path2, number2)): 
         return -1 
   
     # Compare the paths to get the first different value 
@@ -59,9 +52,6 @@ def findLCA(root, n1, n2):
         i += 1
     return path1[i-1] 
   
-  
-# Driver program to test above function 
-# Let's create the Binary Tree shown in above diagram 
 root = Node(1) 
 root.left = Node(2) 
 root.right = Node(3) 
@@ -72,6 +62,6 @@ root.right.right = Node(7)
   
 print (("LCA(4, 5) = %d") %(findLCA(root, 4, 5,)))
 print (("LCA(4, 6) = %d") %(findLCA(root, 4, 6))) 
-print (("LCA(3, 4) = %d") %(findLCA(root,3,4)) )
-print (("LCA(2, 4) = %d") %(findLCA(root,2, 4)) )
+print (("LCA(3, 4) = %d") %(findLCA(root,3,4)))
+print (("LCA(2, 4) = %d") %(findLCA(root,2, 4)))
 
