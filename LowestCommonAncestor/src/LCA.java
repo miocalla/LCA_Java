@@ -28,56 +28,64 @@ public class LCA <Key extends Comparable<Key>, Value>{
 	{
 		return size()==0;
 	}
+	
+	public int size()
+	{
+		return size(root);
+		
+	}
 
-
-	Node root; 
-
-	Node findLCA(int number1, int number2) 
-	{ 
-		return findLCA(root, number1, number2); 
-	} 
-
-	// Returns pointer to LCA of two given values number1 and number2, assuming they are present in Binary Tree
-	Node findLCA(Node node, int number1, int number2) 
-	{ 
-		if (node == null) 
+	private int size (Node x)
+	{
+		if ( x==null)
 		{
-			return null; 
-		} 
-
-		// If  number1 or number2 matches with root's key, return root 
-		if (node.data == number1 || node.data == number2) 
-		{
-			return node; 
-		}  
-		// Look for keys in left and right subtrees 
-		Node left_lca = findLCA(node.left, number1, number2); 
-		Node right_lca = findLCA(node.right, number1, number2); 
-
-		// If both of the above calls return Non-NULL, then one key is present in once subtree and other is present in other, meaning node is LCA
-		if (left_lca!=null && right_lca!=null) 
-		{
-			return node; 
+			return 0; 
 		}
-		// Otherwise check if left subtree or right subtree is LCA 
-		return (left_lca != null) ? left_lca : right_lca; 
-	} 
+		else return x.N;
+		
+	}
 
-
-	public static void main(String args[])  
+	public boolean contains(Key key)
+	{
+		return get (key)!=null;
+		
+	}
+	
+	public Value get(Key key) 
 	{ 
-		LCA tree = new LCA(); 
-		tree.root = new Node(1); 
-		tree.root.left = new Node(2); 
-		tree.root.right = new Node(3); 
-		tree.root.left.left = new Node(4); 
-		tree.root.left.right = new Node(5); 
-		tree.root.right.left = new Node(6); 
-		tree.root.right.right = new Node(7); 
+		return get(root, key); 
+	}
 
-		System.out.println("LCA(4, 5) = " + tree.findLCA(4, 5).data); 
-		System.out.println("LCA(4, 6) = " + tree.findLCA(4, 6).data); 
-		System.out.println("LCA(3, 4) = " + tree.findLCA(3, 4).data); 
-		System.out.println("LCA(2, 4) = " + tree.findLCA(2, 4).data); 
-	} 
+	private Value get(Node node, Key key) 
+	{
+		if (node == null) return null;
+		int cmp = key.compareTo(node.key);
+		if      (cmp < 0) return get(node.left, key);
+		else if (cmp > 0) return get(node.right, key);
+		else return node.val;
+		
+	}  
+
+	/**
+	 *  Insert key-value pair into BST.
+	 *  If key already exists, update with new value.
+	 */
+	public void put(Key key, Value val) {
+		if (val == null) { delete(key); return; }
+		root = put(root, key, val);
+	}
+
+	private Node put(Node node, Key key, Value val) {
+		if (node == null) return new Node(key, val, 1); //new bst
+		int cmp = key.compareTo(node.key);
+		if      (cmp < 0) node.left  = put(node.left,  key, val);
+		else if (cmp > 0) node.right = put(node.right, key, val);
+		else              node.val   = val; //updating value
+		node.N = 1 + size(node.left) + size(node.right); // value child1 + value child2 + 1
+		return node;
+	}
+	
+	
+	
+	
 } 
