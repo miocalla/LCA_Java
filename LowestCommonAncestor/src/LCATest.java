@@ -129,6 +129,62 @@ public class LCATest {
 		assertEquals("Testing root", "1", LCA.get(10).toString());
 	}
 
+	@Test
+	public void testHeight() 
+	{
+		LCA<Integer, Integer> LCA = new LCA<Integer, Integer>();
+
+		assertEquals("Testing height", -1, LCA.height());
+
+		LCA.put(7, 7);  
+
+		assertEquals("Testing height", 0, LCA.height());
+
+		LCA.put(8, 8);   
+		LCA.put(3, 3);  
+
+		assertEquals("Testing height", 1, LCA.height());
+
+		LCA.put(1, 1);      
+		LCA.put(2, 2);   
+
+		assertEquals("Testing height", 3, LCA.height());
+
+		LCA.put(6, 6);   
+		LCA.put(4, 4);   
+		LCA.put(5, 5);
+
+		assertEquals("Testing height", 4, LCA.height());
+
+	}
+
+	@Test
+	public void testMedian() 
+	{
+		LCA<Integer, Integer> LCA = new LCA<Integer, Integer>();
+		assertEquals("Testing median", null, LCA.median());
+		LCA.put(7, 7); 
+		assertEquals("Testing median", "7", LCA.median().toString());
+		LCA.put(8, 8);   
+		LCA.put(3, 3);  
+		assertEquals("Testing median", "7", LCA.median().toString());
+		LCA.put(1, 1);      
+		LCA.put(2, 2); 
+		assertEquals("Testing median", "3", LCA.median().toString());
+		LCA.put(6, 6);   
+		LCA.put(4, 4);   
+		LCA.put(5, 5);
+		assertEquals("Testing median", "4", LCA.median().toString());
+	}
+	
+	@Test
+	public void testContains() 
+	{
+		LCA<Integer, Integer> LCA = new LCA<Integer, Integer>();
+		assertEquals("Testing contains", false, LCA.contains(1));
+		LCA.put(7, 7); 
+		assertEquals("Testing contains", true, LCA.contains(7));
+	}
 
 
 }
