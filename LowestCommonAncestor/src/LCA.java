@@ -28,11 +28,11 @@ public class LCA <Key extends Comparable<Key>, Value>{
 	{
 		return size()==0;
 	}
-	
+
 	public int size()
 	{
 		return size(root);
-		
+
 	}
 
 	private int size (Node x)
@@ -42,15 +42,15 @@ public class LCA <Key extends Comparable<Key>, Value>{
 			return 0; 
 		}
 		else return x.N;
-		
+
 	}
 
 	public boolean contains(Key key)
 	{
 		return get (key)!=null;
-		
+
 	}
-	
+
 	public Value get(Key key) 
 	{ 
 		return get(root, key); 
@@ -63,15 +63,21 @@ public class LCA <Key extends Comparable<Key>, Value>{
 		if      (cmp < 0) return get(node.left, key);
 		else if (cmp > 0) return get(node.right, key);
 		else return node.val;
-		
+
 	}  
 
 	/**
 	 *  Insert key-value pair into BST.
 	 *  If key already exists, update with new value.
 	 */
-	public void put(Key key, Value val) {
-		if (val == null) { delete(key); return; }
+	public void put(Key key, Value val) 
+	{
+		if (val == null) 
+		{ 
+			delete(key); 
+			return; 
+			
+		}
 		root = put(root, key, val);
 	}
 
@@ -84,7 +90,7 @@ public class LCA <Key extends Comparable<Key>, Value>{
 		node.N = 1 + size(node.left) + size(node.right); // value child1 + value child2 + 1
 		return node;
 	}
-	
+
 	/**
 	 * Tree height.
 	 *
@@ -123,7 +129,7 @@ public class LCA <Key extends Comparable<Key>, Value>{
 	//find the node with equivalent key given passedInt
 	private Node intToKey(Node node, int passedInt) {     
 		int leftSize = (size(node.left));  
-		
+
 		//check is it in the left or right subtree
 		if (leftSize > passedInt) {
 			return intToKey(node.left,  passedInt); 
@@ -144,120 +150,120 @@ public class LCA <Key extends Comparable<Key>, Value>{
 		else {
 			return res = printKeysInOrder(root);
 		}
-	
+
 	}
-	
-	 private String printKeysInOrder(Node node) {
-		 String res = "";
-		 if (node == null) {
-			 return res += "()";
-		 }
-		 
-		 else {
+
+	private String printKeysInOrder(Node node) {
+		String res = "";
+		if (node == null) {
+			return res += "()";
+		}
+
+		else {
 			return res += ("(" + printKeysInOrder(node.left) + node.key.toString() + printKeysInOrder(node.right) + ")");
-		 }
-		 
-	 }
+		}
+
+	}
 	public String prettyPrintKeys() {
 		if(isEmpty()) return "-null\n";
-	     return prettyPrint(root,"");
+		return prettyPrint(root,"");
 	}
-	
+
 	private String prettyPrint(Node node, String prefix) {
 		if (node == null) {
 			return (prefix + "-null\n");
 		}
 		else {
-			
+
 			return (prefix+"-"+node.key.toString()+"\n" +prettyPrint(node.left,(prefix+" |"))+ prettyPrint(node.right,(prefix+"  ")));
-    	}
-		
+		}
+
 	}
 
 	public void delete(Key key) {
 		root = delete(root, key);	
 	}
-	
+
 	private Node delete (Node node, Key key) {
 		if (node == null) { 
 			return null;
 		}
-		
-        int compare = key.compareTo(node.key);
-        
-        if   (compare > 0) {
-        	node.right = delete(node.right, key);
-        	node.left  = delete(node.left,  key);
-        }
-        else if (compare < 0) {
-        	node.left  = delete(node.left,  key);
-        }
-        else {
-        	if (node.right == null) {
-        		return node.left;
-        	}
-            if (node.left  == null) {
-            	return node.right;
-            }
-            Node temp = node;
-            node = max(temp.left);                              
-            node.left = deleteMax(temp.left);                 
-            node.right = temp.right; 
-        }
-        
-        node.N = size(node.left) + size(node.right) + 1;
-        return node;
-		
-	}
-	
-	private Node deleteMax(Node node) 
-    {
-        if (node.right == null) return node.left;
-        node.right = deleteMax(node.right);
-        node.N = size(node.left) + size(node.right) + 1;                                 
-        return node;
-    }
-	
-	public Node max(Node node)
-	   {
-	     if(node.right!=null) {
-	       return max(node.right);
-	     }
-	     return node;
-	   }
-	
-	 	public Key lowestCommonAncestor (Node node, Key key1, Key key2)
-	 	{
-	 		if (node == null)
-	 		{
-	 			return null;
-	 		}
-	             
-	 		if (node.key == key1) 
-	 		{
-	 			return node.key;
-	 		}
-	 		if (node.key == key2) 
-	 		{
-	 			return node.key;
-	 		}
-	 		int cmp1 = node.key.compareTo(key1);
-	 		int cmp2 = node.key.compareTo(key2);
-	 		
-	         if (cmp1 >= 0 && cmp2 >= 0)
-	         {
-	        	 return lowestCommonAncestor(node.left, key1, key2);
-	         }
-	   
-	         if (cmp1 <= 0 && cmp2 <= 0)
-	         {
-	        	 return lowestCommonAncestor(node.right, key1, key2);
-	         }
-	   
-	         return node.key;
-	 	}
 
-	
-	
-	
+		int compare = key.compareTo(node.key);
+
+		if   (compare > 0) {
+			node.right = delete(node.right, key);
+			node.left  = delete(node.left,  key);
+		}
+		else if (compare < 0) {
+			node.left  = delete(node.left,  key);
+		}
+		else {
+			if (node.right == null) {
+				return node.left;
+			}
+			if (node.left  == null) {
+				return node.right;
+			}
+			Node temp = node;
+			node = max(temp.left);                              
+			node.left = deleteMax(temp.left);                 
+			node.right = temp.right; 
+		}
+
+		node.N = size(node.left) + size(node.right) + 1;
+		return node;
+
+	}
+
+	private Node deleteMax(Node node) 
+	{
+		if (node.right == null) return node.left;
+		node.right = deleteMax(node.right);
+		node.N = size(node.left) + size(node.right) + 1;                                 
+		return node;
+	}
+
+	public Node max(Node node)
+	{
+		if(node.right!=null) {
+			return max(node.right);
+		}
+		return node;
+	}
+
+	public Key lowestCommonAncestor (Node node, Key key1, Key key2)
+	{
+		if (node == null)
+		{
+			return null;
+		}
+
+		if (node.key == key1) 
+		{
+			return node.key;
+		}
+		if (node.key == key2) 
+		{
+			return node.key;
+		}
+		int cmp1 = node.key.compareTo(key1);
+		int cmp2 = node.key.compareTo(key2);
+
+		if (cmp1 >= 0 && cmp2 >= 0)
+		{
+			return lowestCommonAncestor(node.left, key1, key2);
+		}
+
+		if (cmp1 <= 0 && cmp2 <= 0)
+		{
+			return lowestCommonAncestor(node.right, key1, key2);
+		}
+
+		return node.key;
+	}
+
+
+
+
 } 
