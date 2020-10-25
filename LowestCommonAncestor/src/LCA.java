@@ -24,17 +24,10 @@ public class LCA <Key extends Comparable<Key>, Value>{
 
 	}
 
-	class Node 
-	{ 
-		int data; 
-		Node left, right; 
-
-		public Node(int item) 
-		{ 
-			data = item; 
-			left = right = null; 
-		} 
-	} 
+	public boolean isEmpty()
+	{
+		return size()==0;
+	}
 
 
 	Node root; 
