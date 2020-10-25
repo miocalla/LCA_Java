@@ -164,18 +164,18 @@ public class LCA <Key extends Comparable<Key>, Value>{
 		}
 
 	}
-	public String prettyPrintKeys() {
+	public String printKeys() {
 		if(isEmpty()) return "-null\n";
-		return prettyPrint(root,"");
+		return print(root,"");
 	}
 
-	private String prettyPrint(Node node, String prefix) {
+	private String print(Node node, String prefix) {
 		if (node == null) {
 			return (prefix + "-null\n");
 		}
 		else {
 
-			return (prefix+"-"+node.key.toString()+"\n" +prettyPrint(node.left,(prefix+" |"))+ prettyPrint(node.right,(prefix+"  ")));
+			return (prefix+"-"+node.key.toString()+"\n" +print(node.left,(prefix+" |"))+ print(node.right,(prefix+"  ")));
 		}
 
 	}
