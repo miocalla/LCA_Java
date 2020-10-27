@@ -60,13 +60,14 @@ public class LCATest {
 						"  -8\n" +
 						"   |-null\n" +
 						"    -null\n";
-		assertEquals("Checking pretty printing of non-empty tree", result, LCA.printKeys());
+		assertEquals("Checking printing of non-empty tree", result, LCA.printKeys());
 
 
 	}
 	
 	@Test
 	public void testDelete() {
+		
 		LCA<Integer, Integer> LCA = new LCA<Integer, Integer>();
 		LCA.delete(1);
 		assertEquals("Deleting from empty tree", "()", LCA.printKeysInOrder());
@@ -78,8 +79,7 @@ public class LCATest {
 		LCA.put(2, 2);   // 1       6
 		LCA.put(6, 6);   //  \     /
 		LCA.put(4, 4);   //   2   4
-		LCA.put(5, 5);   //        \
-		//         5
+		LCA.put(5, 5);   
 
 		assertEquals("Checking order of constructed tree",
 				"(((()1(()2()))3((()4(()5()))6()))7(()8()))", LCA.printKeysInOrder());

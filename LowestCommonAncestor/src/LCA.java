@@ -76,17 +76,27 @@ public class LCA <Key extends Comparable<Key>, Value>{
 		{ 
 			delete(key); 
 			return; 
-			
+
 		}
 		root = put(root, key, val);
 	}
 
-	private Node put(Node node, Key key, Value val) {
-		if (node == null) return new Node(key, val, 1); //new bst
+	private Node put(Node node, Key key, Value val) 
+	{
+		if (node == null) 
+		{
+			return new Node(key, val, 1); //new bst
+		}
 		int cmp = key.compareTo(node.key);
-		if      (cmp < 0) node.left  = put(node.left,  key, val);
-		else if (cmp > 0) node.right = put(node.right, key, val);
-		else              node.val   = val; //updating value
+		if(cmp < 0) 
+		{
+			node.left  = put(node.left,  key, val);
+		}
+		else if (cmp > 0)
+		{
+			node.right = put(node.right, key, val);
+		}
+		else node.val   = val; //updating value
 		node.N = 1 + size(node.left) + size(node.right); // value child1 + value child2 + 1
 		return node;
 	}
@@ -94,115 +104,145 @@ public class LCA <Key extends Comparable<Key>, Value>{
 	/**
 	 * Tree height.
 	 *
-	 * worst case O(N): either all the nodes are to right or all the nods are to the left
-	 * (N is the number of nodes in the BST)
+	 * Worst case O(N): either all the nodes are to right or all the nods are to the left
 	 */
 
-	public int height() { 
+	public int height() 
+	{ 
 		return height(root); 
 	}
 
 
-	private int height(Node x) {
-		if (x == null) {
+	private int height(Node x) 
+	{
+		if (x == null) 
+		{
 			return -1;
 		}
-		else {
+		else 
+		{
 			return 1 + Math.max(height(x.left), height(x.right));
 		}
 	}
 
-	public Key median() {
-		if (isEmpty()) return null; //returning null if the bst is empty
+	public Key median() 
+	{
+		if (isEmpty())
+		{
+			return null; //returning null if the bst is empty
+		}
 
-		else {
-			int median=(((size(root)+1)/2)-1);   //add 1 to size(root)	
-			//need to change int to key?
+		else 
+		{
+			int median=(((size(root)+1)/2)-1);   
 			return intToKey(median);
 		}
 	}
 
-	private Key intToKey(int passedInt) {                       
+	private Key intToKey(int passedInt) 
+	{                       
 		Node node = intToKey(root, passedInt);
 		return node.key;
 	}
 	//find the node with equivalent key given passedInt
-	private Node intToKey(Node node, int passedInt) {     
+	private Node intToKey(Node node, int passedInt) 
+	{     
 		int leftSize = (size(node.left));  
 
 		//check is it in the left or right subtree
-		if (leftSize > passedInt) {
+		if (leftSize > passedInt) 
+		{
 			return intToKey(node.left,  passedInt); 
 		}
-		else if (leftSize < passedInt) {
+		else if (leftSize < passedInt) 
+		{
 			return intToKey(node.right, passedInt-leftSize-1); 
 		}
-		else {
+		else 
+		{
 			return node; 
 		}
 	} 
 
-	public String printKeysInOrder() {
+	public String printKeysInOrder() 
+	{
 		String res= "";
-		if (isEmpty()){
+		if (isEmpty())
+		{
 			return res += "()";
 		}
-		else {
+		else 
+		{
 			return res = printKeysInOrder(root);
 		}
 
 	}
 
-	private String printKeysInOrder(Node node) {
+	private String printKeysInOrder(Node node) 
+	{
 		String res = "";
-		if (node == null) {
+		if (node == null) 
+		{
 			return res += "()";
 		}
 
-		else {
+		else 
+		{
 			return res += ("(" + printKeysInOrder(node.left) + node.key.toString() + printKeysInOrder(node.right) + ")");
 		}
 
 	}
-	public String printKeys() {
+	public String printKeys() 
+	{
 		if(isEmpty()) return "-null\n";
 		return print(root,"");
 	}
 
-	private String print(Node node, String prefix) {
-		if (node == null) {
+	private String print(Node node, String prefix) 
+	{
+		if (node == null) 
+		{
 			return (prefix + "-null\n");
 		}
-		else {
+		else 
+		{
 
 			return (prefix+"-"+node.key.toString()+"\n" +print(node.left,(prefix+" |"))+ print(node.right,(prefix+"  ")));
 		}
 
 	}
 
-	public void delete(Key key) {
+	public void delete(Key key) 
+	{
 		root = delete(root, key);	
 	}
 
-	private Node delete (Node node, Key key) {
-		if (node == null) { 
+	private Node delete (Node node, Key key) 
+	{
+		if (node == null) 
+		{ 
 			return null;
 		}
 
 		int compare = key.compareTo(node.key);
 
-		if   (compare > 0) {
+		if   (compare > 0) 
+		{
 			node.right = delete(node.right, key);
 			node.left  = delete(node.left,  key);
 		}
-		else if (compare < 0) {
+		else if (compare < 0) 
+		{
 			node.left  = delete(node.left,  key);
 		}
-		else {
-			if (node.right == null) {
+		else 
+		{
+			if (node.right == null) 
+			{
 				return node.left;
 			}
-			if (node.left  == null) {
+			if (node.left  == null) 
+			{
 				return node.right;
 			}
 			Node temp = node;
