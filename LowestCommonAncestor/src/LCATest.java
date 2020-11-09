@@ -186,5 +186,4 @@ public class LCATest {
 		assertEquals("Testing contains", true, LCA.contains(7));
 	}
 
-
 }
