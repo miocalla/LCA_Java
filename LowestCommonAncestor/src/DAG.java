@@ -117,7 +117,6 @@ public class DAG {
 
 	public ArrayList<Integer> BFS(int s)
 	{
-		// Mark all the vertices as not visited (By default set as false)
 		boolean visited[] = new boolean[numberOfVertices];
 
 		LinkedList<Integer> queue = new LinkedList<Integer>();
