@@ -12,20 +12,18 @@ public class DAG {
 	private boolean marked[];		
 	private boolean hasCycle;		
 	private boolean stack[];		
-	private int[] distanceTo;      
-	private int[] edgeTo;     
 
 
-	public DAG(int V)
+	public DAG(int vertex)
 	{
-		if (V < 0) throw new IllegalArgumentException("Number of vertices in a Digraph must be nonnegative");
-		this.vertex = V;
+		if (vertex < 0) throw new IllegalArgumentException("Number of vertices in digraph must be nonnegative");
+		this.vertex = vertex;
 		this.edge = 0;
-		indegree = new int[V];
-		marked = new boolean[V];
-		stack = new boolean[V];
-		adj = (ArrayList<Integer>[]) new ArrayList[V];
-		for (int v = 0; v < V; v++) 
+		indegree = new int[vertex];
+		marked = new boolean[vertex];
+		stack = new boolean[vertex];
+		adj = (ArrayList<Integer>[]) new ArrayList[vertex];
+		for (int v = 0; v < vertex; v++) 
 		{
 			adj[v] = new ArrayList<Integer>();
 		}              
@@ -118,6 +116,93 @@ public class DAG {
 		stack[v] = false;
 	}
 
+	public ArrayList<Integer> BFS(int s)
+	{
+		// Mark all the vertices as not visited (By default set as false)
+		boolean visited[] = new boolean[vertex];
+
+		LinkedList<Integer> queue = new LinkedList<Integer>();
+		ArrayList<Integer> order= new ArrayList<Integer>();
+
+		visited[s]=true;
+		queue.add(s);
+
+		while (queue.size() != 0)
+		{
+			s = queue.poll();           
+			
+			order.add(s);
+			
+			// Find adjacent vertices of the dequeued vertex s. If it has not been visited, mark it visited and enqueue it
+			Iterator<Integer> i = adj[s].listIterator();
+			while (i.hasNext())
+			{
+				int n = i.next();
+				if (!visited[n])
+				{
+					visited[n] = true;
+					queue.add(n);
+				}
+			}
+		}
+		return order;
+
+	}
+
+	public DAG reverse() {
+		
+        DAG reverse = new DAG(vertex); 
+        
+        for (int v = 0; v < vertex; v++) 
+        {
+            for (int w : adj(v)) 
+            {
+                reverse.addEdge(w, v); //reverse the direction of the edges
+            }
+        }
+        
+        return reverse;
+    }
+	
+	public int findLCA(int v, int w){
+		
+		findCycle(0);
+		
+		if(hasCycle)
+		{
+			return -1;
+		}
+		
+		DAG backwards = reverse();
+		ArrayList<Integer> vPath = backwards.BFS(v);
+		ArrayList<Integer> wPath = backwards.BFS(w);
+		ArrayList<Integer> commonAncestors = new ArrayList<Integer>();
+		
+		boolean isFound = false;
+		
+		for(int i = 0; i < vPath.size(); i++)
+		{
+			for(int t = 0; t< wPath.size(); t++)
+			{		
+				if(vPath.get(i)==wPath.get(t))
+				{
+					commonAncestors.add(vPath.get(i));
+				}
+			}
+		}
+
+		if(isFound)
+		{
+			return commonAncestors.get(0);
+
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	
+	
 
 
 
