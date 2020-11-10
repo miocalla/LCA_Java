@@ -5,8 +5,8 @@ import java.util.Queue;
 
 public class DAG {
 
-	private int vertex;           
-	private int edge;              
+	private int numberOfVertices;           
+	private int numberOfEdges;              
 	private ArrayList<Integer>[] adj;    
 	private int[] indegree;        
 	private boolean marked[];		
@@ -14,53 +14,53 @@ public class DAG {
 	private boolean stack[];		
 
 
-	public DAG(int vertex)
+	public DAG(int numberOfVertices)
 	{
-		if (vertex < 0) throw new IllegalArgumentException("Number of vertices in digraph must be nonnegative");
-		this.vertex = vertex;
-		this.edge = 0;
-		indegree = new int[vertex];
-		marked = new boolean[vertex];
-		stack = new boolean[vertex];
-		adj = (ArrayList<Integer>[]) new ArrayList[vertex];
-		for (int v = 0; v < vertex; v++) 
+		if (numberOfVertices < 0) throw new IllegalArgumentException("Number of vertices in digraph must be nonnegative");
+		this.numberOfVertices = numberOfVertices;
+		this.numberOfEdges = 0;
+		indegree = new int[numberOfVertices];
+		marked = new boolean[numberOfVertices];
+		stack = new boolean[numberOfVertices];
+		adj = (ArrayList<Integer>[]) new ArrayList[numberOfVertices];
+		for (int v = 0; v < numberOfVertices; v++) 
 		{
 			adj[v] = new ArrayList<Integer>();
 		}              
 	}
 
 	public int vertex() {
-		return vertex;	
+		return numberOfVertices;	
 	}
 
 	public int edge() {
-		return edge;
+		return numberOfEdges;
 	}
 
-	//Adds a directed edge from v->w
 	public void addEdge(int v, int w)
 	{
-		if((validateVertex(v)>0)&&(validateVertex(w)>0))
+		if((validateVertex(v)>0) && (validateVertex(w)>0))
 		{
 			adj[v].add(w);
 			indegree[w]++;
-			edge++;
+			numberOfEdges++;
 		}
-		else{
+		else
+		{
 			System.out.println("Please enter vertices between 0 & n-1");
 		}
 
 	}
 
 	private int validateVertex(int v) {
-		if (v < 0 || v >= vertex)
+		if (v < 0 || v >= numberOfVertices)
 			return -1;
 		else
 			return 1;
 	}
 
-	//Returns amount of directed edges incident to vertex v
 	public int indegree(int v) {
+		
 		if(validateVertex(v)<0)
 		{
 			return -1;
@@ -73,6 +73,7 @@ public class DAG {
 
 	//Returns amount of directed edges from vertex v
 	public int outdegree(int v) {
+		
 		if(validateVertex(v)<0)
 		{
 			return -1;
@@ -88,8 +89,6 @@ public class DAG {
 	{ 
 		return adj[v]; 
 	}
-
-
 
 	public boolean hasCycle() {
 
@@ -119,7 +118,7 @@ public class DAG {
 	public ArrayList<Integer> BFS(int s)
 	{
 		// Mark all the vertices as not visited (By default set as false)
-		boolean visited[] = new boolean[vertex];
+		boolean visited[] = new boolean[numberOfVertices];
 
 		LinkedList<Integer> queue = new LinkedList<Integer>();
 		ArrayList<Integer> order= new ArrayList<Integer>();
@@ -151,9 +150,9 @@ public class DAG {
 
 	public DAG reverse() {
 		
-        DAG reverse = new DAG(vertex); 
+        DAG reverse = new DAG(numberOfVertices); 
         
-        for (int v = 0; v < vertex; v++) 
+        for (int v = 0; v < numberOfVertices; v++) 
         {
             for (int w : adj(v)) 
             {
@@ -174,6 +173,7 @@ public class DAG {
 		}
 		
 		DAG backwards = reverse();
+		
 		ArrayList<Integer> vPath = backwards.BFS(v);
 		ArrayList<Integer> wPath = backwards.BFS(w);
 		ArrayList<Integer> commonAncestors = new ArrayList<Integer>();
@@ -187,6 +187,7 @@ public class DAG {
 				if(vPath.get(i)==wPath.get(t))
 				{
 					commonAncestors.add(vPath.get(i));
+					isFound = true;
 				}
 			}
 		}
