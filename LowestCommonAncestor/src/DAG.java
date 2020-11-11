@@ -60,7 +60,7 @@ public class DAG {
 	}
 
 	public int indegree(int v) {
-		
+
 		if(validateVertex(v)<0)
 		{
 			return -1;
@@ -73,7 +73,7 @@ public class DAG {
 
 	//Returns amount of directed edges from vertex v
 	public int outdegree(int v) {
-		
+
 		if(validateVertex(v)<0)
 		{
 			return -1;
@@ -128,9 +128,9 @@ public class DAG {
 		while (queue.size() != 0)
 		{
 			s = queue.poll();           
-			
+
 			order.add(s);
-			
+
 			// Find adjacent vertices of the dequeued vertex s. If it has not been visited, mark it visited and enqueue it
 			Iterator<Integer> i = adj[s].listIterator();
 			while (i.hasNext())
@@ -148,37 +148,37 @@ public class DAG {
 	}
 
 	public DAG reverse() {
-		
-        DAG reverse = new DAG(numberOfVertices); 
-        
-        for (int v = 0; v < numberOfVertices; v++) 
-        {
-            for (int w : adj(v)) 
-            {
-                reverse.addEdge(w, v); //reverse the direction of the edges
-            }
-        }
-        
-        return reverse;
-    }
-	
+
+		DAG reverse = new DAG(numberOfVertices); 
+
+		for (int v = 0; v < numberOfVertices; v++) 
+		{
+			for (int w : adj(v)) 
+			{
+				reverse.addEdge(w, v); //reverse the direction of the edges
+			}
+		}
+
+		return reverse;
+	}
+
 	public int findLCA(int v, int w){
-		
+
 		findCycle(0);
-		
+
 		if(hasCycle)
 		{
 			return -1;
 		}
-		
+
 		DAG backwards = reverse();
-		
+
 		ArrayList<Integer> vPath = backwards.BFS(v);
 		ArrayList<Integer> wPath = backwards.BFS(w);
 		ArrayList<Integer> commonAncestors = new ArrayList<Integer>();
-		
+
 		boolean isFound = false;
-		
+
 		for(int i = 0; i < vPath.size(); i++)
 		{
 			for(int t = 0; t< wPath.size(); t++)
@@ -201,9 +201,5 @@ public class DAG {
 			return -1;
 		}
 	}
-	
-	
-
-
 
 }

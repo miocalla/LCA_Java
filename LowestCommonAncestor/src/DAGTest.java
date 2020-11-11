@@ -86,7 +86,7 @@ public class DAGTest {
 		//--------2---5----7--
 		//---0--1-------6----8
 		//--------3---4-------
-		
+
 		lca.addEdge(0, 1);
 		lca.addEdge(1, 2);
 		lca.addEdge(1, 3);
@@ -112,7 +112,7 @@ public class DAGTest {
 		//-----1----5----
 		//---0-|---/-----
 		//-----2--3---4--
-		
+
 		lca2.addEdge(0, 1);
 		lca2.addEdge(0, 2);
 		lca2.addEdge(1, 2);
@@ -132,6 +132,7 @@ public class DAGTest {
 	//unique case where graph is just a digraph but not acyclic
 	@Test
 	public void testLCAForNonDAG(){
+		
 		DAG lca3 = new DAG(11);
 
 		lca3.addEdge(0, 1);
@@ -148,7 +149,7 @@ public class DAGTest {
 		assertEquals("", -1, lca3.findLCA(1, 3));
 
 	}
-	
+
 	@Test(expected=Exception.class)
 	public void exceptionTest()
 	{

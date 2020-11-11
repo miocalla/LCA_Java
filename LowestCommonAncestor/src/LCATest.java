@@ -25,12 +25,6 @@ public class LCATest {
 		assertSame("Testing LCA where LCA is one of the nodes", 7, bst.lowestCommonAncestor(bst.root, 3,7));
 	}
 	
-	@Test 
-	public void testDAG() {
-		
-		// insert tests
-	}
-	
 	@Test
 	public void testPrint() {
 		LCA<Integer, Integer> LCA = new LCA<Integer, Integer>();
